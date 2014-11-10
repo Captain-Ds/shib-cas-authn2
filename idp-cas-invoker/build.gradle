@@ -1,4 +1,14 @@
+apply plugin: 'distribution'
+
+def str = "rm -rf "+buildDir.absolutePath+"/exploded-aar"
+str.execute()
+
 test.onlyIf { ! Boolean.getBoolean('skip.tests') }
+
+configurations {
+    provided
+    compile.extendsFrom provided
+}
 
 dependencies {
     compile "javax.servlet:servlet-api:$project.servletVersion"
@@ -13,4 +23,18 @@ dependencies {
     compile group: 'javax.ws.rs', name: 'jsr311-api', version: '1.1.1'
     compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.5'
     compile group: 'org.mockito', name: 'mockito-all', version: '1.9.5'
+}
+
+jar {
+    dependsOn configurations.runtime
+    from {
+        (configurations.runtime - configurations.provided).collect {
+            if(it.path.contains('jasig'))
+                it.isDirectory() ? it : zipTree(it)
+        }.findAll { it != null }
+    } {
+        exclude "META-INF/*.SF"
+        exclude "META-INF/*.DSA"
+        exclude "META-INF/*.RSA"
+    }
 }
