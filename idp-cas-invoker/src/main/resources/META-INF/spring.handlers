@@ -1,1 +1,2 @@
 http\://unicon.net/shib-cas/authn = net.unicon.idp.authn.provider.CasNamespaceHandler
+http\://captainds.com/shib-cas/dc = com.captainds.config.DataConnectorNamespaceHandler

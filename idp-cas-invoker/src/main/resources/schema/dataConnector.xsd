@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="http://captainds.com/shib-cas/dc"
+        xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:resolver="urn:mace:shibboleth:2.0:resolver"
+        elementFormDefault="qualified">
+
+    <import namespace="urn:mace:shibboleth:2.0:resolver" schemaLocation="classpath:/schema/shibboleth-2.0-attribute-resolver.xsd"/>
+
+    <complexType name="CASExtraAttributes">
+        <annotation>
+            <documentation>
+                A data connector that gets CAS Extra Values from the CASProfile object
+            </documentation>
+        </annotation>
+        <complexContent>
+            <extension base="resolver:BaseDataConnectorType">
+            </extension>
+        </complexContent>
+    </complexType>
+</schema>

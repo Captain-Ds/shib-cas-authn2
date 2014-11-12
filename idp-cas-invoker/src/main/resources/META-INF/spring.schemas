@@ -1,1 +1,2 @@
 http\://unicon.net/shib-cas/authn = schema/casLoginHandler.xsd
+http\://captainds.com/shib-cas/dc = schema/dataConnector.xsd
