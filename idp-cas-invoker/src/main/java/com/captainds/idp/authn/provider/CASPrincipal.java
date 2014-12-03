@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import org.opensaml.xml.util.DatatypeHelper;
 
@@ -28,14 +29,23 @@ public class CASPrincipal implements Principal, Serializable {
      *
      * @param principalName name of the principal
      */
-    public CASPrincipal(String principalName, String uid, String accountDirectory) {
+    public CASPrincipal(String principalName, Map<String, Object> attributes) {
         name = DatatypeHelper.safeTrimOrNullString(principalName);
         extraAttributes = new HashMap<>();
+
+        String uid = Objects.toString(attributes.get("uuid"), "");
+        attributes.remove("uuid");
+        String accountDirectory = Objects.toString(attributes.get("account_directory"), "");
+        attributes.remove("account_directory");
 
         extraAttributes.put("uid", uid);
         extraAttributes.put("accountDirectory", accountDirectory);
 
-        if(name == null){
+        for(String key : attributes.keySet()) {
+            extraAttributes.put(key, Objects.toString(attributes.get(key)));
+        }
+
+        if(name == null) {
             throw new IllegalArgumentException("principal name may not be null or empty");
         }
     }

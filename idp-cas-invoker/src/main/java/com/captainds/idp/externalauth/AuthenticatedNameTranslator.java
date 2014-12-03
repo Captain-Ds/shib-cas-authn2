@@ -12,8 +12,6 @@ import org.jasig.cas.client.validation.Assertion;
 import edu.internet2.middleware.shibboleth.idp.authn.LoginHandler;
 
 import java.util.Map;
-import java.util.Objects;
-
 
 /**
  * Created by Sean Hill (sean@reax.io) on 11/10/14.
@@ -27,10 +25,8 @@ public class AuthenticatedNameTranslator implements CasToShibTranslator {
                               final Assertion assertion) {
         String authenticatedPrincipalName = assertion.getPrincipal().getName(); // i.e. username from CAS
         Map<String, Object> attributes = assertion.getPrincipal().getAttributes();
-        String uid = Objects.toString(attributes.get("uuid"), "");
-        String accountDirectory = Objects.toString(attributes.get("account_directory"), "");
         // Pass authenticated principal back to IdP to finish its part of authentication request processing
-        CASPrincipal principal = new CASPrincipal(authenticatedPrincipalName, uid, accountDirectory);
+        CASPrincipal principal = new CASPrincipal(authenticatedPrincipalName, attributes);
         request.setAttribute(LoginHandler.PRINCIPAL_NAME_KEY, authenticatedPrincipalName);
         request.setAttribute(LoginHandler.PRINCIPAL_KEY, principal);
     }
